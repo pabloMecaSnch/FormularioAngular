@@ -1,0 +1,90 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Registro
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="form-content">
+    <form [formGroup]="formulario" (ngSubmit)="onSubmit(formulario.value)">
+      <!--Nombre de Usuario-->
+      <ion-item>
+        <ion-label position="floating">Nombre Usuario</ion-label>
+        <ion-input type="text" formControlName="nombreUsu"></ion-input>
+      </ion-item>
+      <div class="validation-errors">
+        <!--    pristine => true cuando el usuario no ha cambiado el valor del control
+                dirty => true cuando el usuario ha cambiado el valor del control
+                touched => true si el usuario ha puesto el foco en el control y luego lo ha puesto en otro diferente
+                untouched => lo contrario a touched
+                valid => el valor introducido ha pasado todos los validadores
+                invalid => el valor introducido no ha pasado alguna validación
+          -->
+        <ng-container *ngFor="let validation of validation_messages.nombreUsu">
+          <div class="error-message" *ngIf="formulario.get('nombreUsu').hasError(validation.type)
+            && (formulario.get('nombreUsu').dirty || formulario.get('nombreUsu').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>{{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+      <!--Nombre-->
+      <ion-item>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input type="text" formControlName="nombre"></ion-input>
+      </ion-item>
+      <!--Formulario de contraseñas-->
+      <div formGroupName="matchingPasswords">
+        <!--Contraseña-->
+        <ion-item>
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input type="text" formControlName="password"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.password">
+            <div class="error-message" *ngIf="matchingPasswords.get('password').hasError(validation.type)
+              && (matchingPasswords.get('password').dirty || matchingPasswords.get('password').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>{{validation.message}}
+            </div>
+          </ng-container>
+        </div>
+        <!--Confirmar Contraseña-->
+        <ion-item>
+          <ion-label position="floating">Confirmar contraseña</ion-label>
+          <ion-input type="text" formControlName="confiPass"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.matchingPasswords">
+            <div class="error-message" *ngIf="formulario.get('matchingPasswords').invalid
+              && (formulario.get('matchingPasswords').dirty || formulario.get('matchingPasswords').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>{{validation.message}}
+            </div>
+          </ng-container>
+          
+
+          <ng-container *ngFor="let validation of validation_messages.confiPass">
+            <div class="error-message" *ngIf="matchingPasswords.get('confiPass').hasError(validation.type)
+              && (matchingPasswords.get('confiPass').dirty || matchingPasswords.get('confiPass').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>{{validation.message}}
+            </div>
+          </ng-container>
+        </div>
+      </div><!--Fin formulario contraseña-->
+      <!--Formulario IBAN-DNI-->
+      <div formGroupName="dniCompulsory">
+       <!--DNI-->
+       <ion-item>
+        <ion-label position="floating">DNI</ion-label>
+          <ion-input type="text" formControlName="DNI"></ion-input>
+      </ion-item>
+        <!--IBAN-->
+      <ion-item>
+        <ion-label position="floating">IBAN</ion-label>
+          <ion-input type="text" formControlName="IBAN"></ion-input>
+      </ion-item>
+      </div>
+      
+      <ion-button color="primary" class="submit-btn" type="submit" [disabled]="!formulario.valid">Enviar datos</ion-button>
+    </form>
+
+</ion-content>
